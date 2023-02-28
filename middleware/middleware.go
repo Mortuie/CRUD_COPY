@@ -1,4 +1,4 @@
-package main
+package middleware
 
 import (
 	"context"
@@ -7,18 +7,19 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-playground/validator/v10"
+	"github.com/mortuie/CRUD_COPY/models"
 )
 
 type ErrorResponse struct {
 	Message string `json:"message"`
 }
 
-func middlewareTest(next http.Handler) http.Handler {
+func Resource_request_param_validation(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		uuid := chi.URLParam(r, "uuid")
 		sourceName := chi.URLParam(r, "resourceName")
 
-		rp := &RequestParams{Uuid: uuid, SourceName: sourceName}
+		rp := &models.RequestParams{Uuid: uuid, Resource: sourceName}
 		err := validator.New().Struct(rp)
 
 		if err != nil {
