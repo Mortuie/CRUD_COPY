@@ -6,12 +6,13 @@ import (
 	"log"
 	"time"
 
+	"github.com/mortuie/CRUD_COPY/constants"
 	"github.com/mortuie/CRUD_COPY/models"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-var databases = []string{"resources"}
+var databases = []string{constants.RESOURCE_DB}
 
 type MongoStore struct {
 	DB  *mongo.Client

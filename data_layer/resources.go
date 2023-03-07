@@ -26,7 +26,7 @@ func (m ResourceModel) CreateCollection(name string) error {
 
 	if err != nil {
 		if strings.Contains(err.Error(), "Collection already exists.") {
-			fmt.Printf("Index: %s already exists.\n", name)
+			fmt.Printf("Collection: %s already exists.\n", name)
 		} else {
 			fmt.Println("ERROR CREATING COLLECTION", err)
 			return err

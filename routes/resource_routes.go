@@ -1,14 +1,15 @@
 package routes
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/google/uuid"
 	"github.com/mortuie/CRUD_COPY/data_layer"
 	"github.com/mortuie/CRUD_COPY/middleware"
 	"github.com/mortuie/CRUD_COPY/models"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type ResourceRoutesDeps struct {
@@ -35,16 +36,23 @@ func (deps ResourceRoutesDeps) list(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("memes"))
 }
 
-type Person struct {
-	ID       primitive.ObjectID `bson:"_id,omitempty"`
-	Age      int                `bson:"age,omitempty"`
-	FullName string             `bson:"full_name,omitempty"`
-}
-
 func (deps ResourceRoutesDeps) create(w http.ResponseWriter, r *http.Request) {
 	rp := r.Context().Value("request_params").(models.RequestParams)
 
 	_ = rp
+
+	var anyJson map[string]interface{}
+
+	json.NewDecoder(r.Body).Decode(&anyJson)
+
+	if anyJson == nil {
+		b, _ := json.Marshal(models.ErrorResponse{Message: "JSON body is empty."})
+		w.WriteHeader(400)
+		w.Write(b)
+		return
+	}
+
+	anyJson["id"] = uuid.New().String()
 
 	w.Write([]byte("creating..."))
 }
