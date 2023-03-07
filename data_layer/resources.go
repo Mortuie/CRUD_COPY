@@ -43,8 +43,6 @@ func (m ResourceModel) InsertResource(collectionName string, resource map[string
 		return nil, err
 	}
 
-	fmt.Println("ID: ", b.InsertedID.(primitive.ObjectID).Hex())
-
 	idString := b.InsertedID.(primitive.ObjectID).Hex()
 
 	resource["_id"] = idString
