@@ -23,6 +23,7 @@ func main() {
 	r.Use(middleware.AllowContentType("application/json"))
 	r.Use(middleware.Logger)
 
+	// localhost:3000/SOME_UUID/EXAMPLE_VEGETABLE
 	r.Mount("/{uuid}/{resourceName}", e.ResourceRoutes())
 
 	fmt.Println("Listening on port: ", 3000)
